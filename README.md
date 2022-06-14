@@ -94,3 +94,6 @@ _playerID = isFirstLoad ? Guid.NewGuid() : Guid.Parse((string)data[nameof(_playe
 ```
   
 </details>
+
+## Contributing
+Any Contributions are welcome through Pull Requests. More details will follow.
