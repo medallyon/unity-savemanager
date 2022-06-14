@@ -1,0 +1,26 @@
+{
+  "name": "com.medallyon.savemanager",
+  "displayName": "SaveManager",
+  "version": "0.1.0",
+  "unity": "2018.4",
+  "description": "A custom Unity SaveManager that allows easy saving & loading of Variables in any of your Scripts.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medallyon/unity-savemanager.git"
+  },
+  "keywords": [
+    "unity",
+    "savemanager",
+    "upm"
+  ],
+  "author": "medallyon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/medallyon/unity-savemanager/issues"
+  },
+  "homepage": "https://github.com/medallyon/unity-savemanager#readme",
+  "type": "library",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  }
+}
