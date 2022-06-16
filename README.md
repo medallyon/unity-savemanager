@@ -1,3 +1,5 @@
+[![openupm](https://img.shields.io/npm/v/com.medallyon.savemanager?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.medallyon.savemanager/)
+
 # Unity SaveManager
 A custom Unity SaveManager that allows easy saving &amp; loading of Variables in any of your Scripts.
 
@@ -11,7 +13,7 @@ A custom Unity SaveManager that allows easy saving &amp; loading of Variables in
 4. Go back to Unity and allow it to install the package into your project.
 
 <details>
-  <summary><h3>Method B - `manifest.json`</h3></summary>
+  <summary><h3>Method B - <code>manifest.json<code></h3></summary>
   
   1. Open the `manifest.json` file found in your project root directory under `Packages > manifest.json`
   2. Add `"com.medallyon.savemanager": "https://github.com/medallyon/unity-savemanager.git",` to the `dependencies` object.
@@ -56,7 +58,7 @@ The `ISaveable` Interface requires you to add the `public void OnRestore(bool is
 </details>
 
 <details>
-  <summary><h4>Accessing Variables and their Values through `data`</h4></summary>
+  <summary><h4>Accessing Variables and their Values through <code>data<code></h4></summary>
   
   Since the `data` parameter is a Dictionary, we can use its indexer to access Variables via their names. Here, the C# `nameof` keyword comes in handy. See the following example on how to access the saved `_playerID` variable:
 
