@@ -83,6 +83,10 @@ namespace Medallyon
                 // Deduce which components implement the '[Save]' Attribute and take a note of them
                 foreach (MonoBehaviour comp in trans.GetComponents<MonoBehaviour>())
                 {
+                    // The Component in the Hierarchy may be a missing script (null), check this explicitly
+                    if (comp == null)
+                        continue;
+
                     Type type = comp.GetType();
                     bool hasSavedMembers = type.GetMembers(SaveManager.SaveableMemberFields)
                         .Any(m => Attribute.IsDefined(m, typeof(SaveAttribute)));
