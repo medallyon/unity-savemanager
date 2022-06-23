@@ -1,7 +1,7 @@
 {
   "name": "com.medallyon.savemanager",
   "displayName": "SaveManager",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "unity": "2018.4",
   "description": "A custom Unity SaveManager that allows easy saving & loading of Variables in any of your Scripts.",
   "repository": {
