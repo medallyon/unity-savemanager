@@ -174,17 +174,41 @@ namespace Medallyon
 
         protected static void RestoreThisFrame(Component component, MethodInfo method, bool isFirstLoad, Dictionary<string, object> data)
         {
-            // Invoke OnRestore for the Collection of variables
-            method.Invoke(component, new object[] { isFirstLoad, data });
+            try
+            {
+                // Invoke OnRestore for the Collection of variables
+                method.Invoke(component, new object[] { isFirstLoad, data });
+            }
+            catch (NotImplementedException e)
+            {
+                Debug.LogWarning(
+                    $"{component.GetType().Name}.{method.Name} is not implemented. Please implement the {nameof(ISaveable)} interface on your {{{component.GetType().Name}}} Component.");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error restoring data for {component.GetType().Name}.{method.Name}", e);
+            }
         }
 
         protected static IEnumerator RestoreNextFrame(Component component, MethodInfo method, bool isFirstLoad, Dictionary<string, object> data)
         {
             // Wait until all objects have woken up (processed their Awake)
             yield return new WaitForEndOfFrame();
-
-            // Invoke OnRestore for the Collection of variables
-            method.Invoke(component, new object[] { isFirstLoad, data });
+            
+            try
+            {
+                // Invoke OnRestore for the Collection of variables
+                method.Invoke(component, new object[] { isFirstLoad, data });
+            }
+            catch (NotImplementedException e)
+            {
+                Debug.LogWarning(
+                    $"{component.GetType().Name}.{method.Name} is not implemented. Please implement the {nameof(ISaveable)} interface on your {{{component.GetType().Name}}} Component.");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error restoring data for {component.GetType().Name}.{method.Name}", e);
+            }
         }
 
         /// <summary>
