@@ -86,13 +86,13 @@ namespace Medallyon
                 if (!iSaveables.Any())
                     return;
 
-                // Get the 'OnRestore' MethodInfo to be invoked from the 'ISaveable' interface
-                MethodInfo onRestoreMethod = iSaveables[0].GetType().GetInterface(nameof(ISaveable))
-                    .GetMethod(nameof(ISaveable.OnRestore));
+                // Get the 'OnFirstLoad' MethodInfo to be invoked from the 'ISaveable' interface
+                MethodInfo onFirstLoad = iSaveables[0].GetType().GetInterface(nameof(ISaveable))
+                    .GetMethod(nameof(ISaveable.OnFirstLoad));
 
-                // Invoke OnRestore with an empty data object and 'isFirstLoad = true'
+                // Invoke OnFirstLoad
                 foreach (MonoBehaviour mono in iSaveables)
-                    RestoreThisFrame(mono, onRestoreMethod, true, new Dictionary<string, object>());
+                    onFirstLoad?.Invoke(mono, null);
 
                 return;
             }
@@ -167,17 +167,17 @@ namespace Medallyon
                     // TODO: Analysis: Creates a number of Coroutines before Game Start, which may have a slight performance impact.
                     // Would it be better to have a single Coroutine calling 'OnRestore' for the collection of components?
                     if (onRestoreMethod != null)
-                        RestoreThisFrame(component, onRestoreMethod, false, collection);
+                        RestoreThisFrame(component, onRestoreMethod, collection);
                 }
             }
         }
 
-        protected static void RestoreThisFrame(Component component, MethodInfo method, bool isFirstLoad, Dictionary<string, object> data)
+        protected static void RestoreThisFrame(Component component, MethodInfo method, Dictionary<string, object> data)
         {
             try
             {
                 // Invoke OnRestore for the Collection of variables
-                method.Invoke(component, new object[] { isFirstLoad, data });
+                method.Invoke(component, new object[] { data });
             }
             catch (NotImplementedException e)
             {
@@ -190,7 +190,7 @@ namespace Medallyon
             }
         }
 
-        protected static IEnumerator RestoreNextFrame(Component component, MethodInfo method, bool isFirstLoad, Dictionary<string, object> data)
+        protected static IEnumerator RestoreNextFrame(Component component, MethodInfo method, Dictionary<string, object> data)
         {
             // Wait until all objects have woken up (processed their Awake)
             yield return new WaitForEndOfFrame();
@@ -198,7 +198,7 @@ namespace Medallyon
             try
             {
                 // Invoke OnRestore for the Collection of variables
-                method.Invoke(component, new object[] { isFirstLoad, data });
+                method.Invoke(component, new object[] { data });
             }
             catch (NotImplementedException e)
             {
