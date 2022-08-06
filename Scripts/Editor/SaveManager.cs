@@ -29,7 +29,7 @@ namespace Medallyon
             SaveAll();
         }
 
-        public void SaveAll()
+        public static void SaveAll()
         {
             Dictionary<string, Dictionary<string, ComponentData>> toSave = new Dictionary<string, Dictionary<string, ComponentData>>();
             foreach (Saveable obj in FindObjectsOfType<Saveable>())
@@ -75,7 +75,7 @@ namespace Medallyon
             return iSaveables;
         }
 
-        public void LoadAll()
+        public static void LoadAll()
         {
             if (!DataFile.Exists)
             {
