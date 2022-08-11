@@ -184,11 +184,6 @@ namespace Medallyon
                 // Invoke OnRestore for the Collection of variables
                 method.Invoke(component, new object[] { data });
             }
-            catch (NotImplementedException e)
-            {
-                Debug.LogWarning(
-                    $"{component.GetType().Name}.{method.Name} is not implemented. Please implement the {nameof(ISaveable)} interface on your {{{component.GetType().Name}}} Component.");
-            }
             catch (Exception e)
             {
                 throw new Exception($"Error restoring data for {component.GetType().Name}.{method.Name}", e);
@@ -204,11 +199,6 @@ namespace Medallyon
             {
                 // Invoke OnRestore for the Collection of variables
                 method.Invoke(component, new object[] { data });
-            }
-            catch (NotImplementedException e)
-            {
-                Debug.LogWarning(
-                    $"{component.GetType().Name}.{method.Name} is not implemented. Please implement the {nameof(ISaveable)} interface on your {{{component.GetType().Name}}} Component.");
             }
             catch (Exception e)
             {
