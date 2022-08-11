@@ -19,16 +19,9 @@ namespace Medallyon
         public static FileInfo DataFile => new FileInfo(Path.Combine(DataDirectory.FullName, "Data.dat"));
         private static FileInfo BackupDataFile => new FileInfo(Path.Combine(DataDirectory.FullName, "Data.bak.dat"));
 
-        private void Awake()
-        {
-            LoadAll();
-        }
-
-        private void OnApplicationQuit()
-        {
-            SaveAll();
-        }
-
+        /// <summary>
+        /// Load all fields & properties of all Components with the Saveable attribute.
+        /// </summary>
         public static void SaveAll()
         {
             Dictionary<string, Dictionary<string, ComponentData>> toSave = new Dictionary<string, Dictionary<string, ComponentData>>();
@@ -75,6 +68,9 @@ namespace Medallyon
             return iSaveables;
         }
 
+        /// <summary>
+        /// Restore all fields & properties of all Components with the Saveable attribute.
+        /// </summary>
         public static void LoadAll()
         {
             if (!DataFile.Exists)
