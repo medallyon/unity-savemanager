@@ -88,7 +88,16 @@ namespace Medallyon
 
                 // Invoke OnFirstLoad
                 foreach (MonoBehaviour mono in iSaveables)
-                    onFirstLoad?.Invoke(mono, null);
+                {
+                    try
+                    {
+                        onFirstLoad?.Invoke(mono, null);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning($"{mono.GetType().Name} failed to invoke {nameof(ISaveable.OnFirstLoad)}: {e.Message}");
+                    }
+                }
 
                 return;
             }
