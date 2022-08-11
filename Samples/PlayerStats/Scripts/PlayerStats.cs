@@ -8,7 +8,7 @@ namespace Medallyon
     {
         [Save] public int PlayerId;
         [Save] public string PlayerName;
-        [Save] private double Experience { get; set; }
+        [Save] private float Experience { get; set; }
 
         private void Start()
         {

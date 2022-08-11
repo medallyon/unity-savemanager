@@ -151,15 +151,29 @@ namespace Medallyon
                             continue;
                         }
 
-                        collection.Add(dataVar.Name, dataVar.Value);
+                        object adjustedValue = dataVar.Value;
+
+                        try
+                        {
+                            Type memberType = variable.GetMemberType();
+                            if (memberType == typeof(int))
+                                adjustedValue = (int)(long)dataVar.Value;
+                            else if (memberType == typeof(float))
+                                adjustedValue = (float)(double)dataVar.Value;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogWarning(e);
+                        }
+
+                        collection.Add(dataVar.Name, adjustedValue);
 
                         try
                         {
                             // Set the value for primitive types. For non-primitives, OnRestore is called.
-                            // Following: Special case for long ints & Guids
-                            if (dataVar.Value is long)
-                                variable.SetValue(component, Convert.ToInt32(dataVar.Value));
-                            else if (variable.GetMemberType() == typeof(Guid))
+
+                            // Following: Special case for Guids
+                            if (variable.GetMemberType() == typeof(Guid))
                                 variable.SetValue(component, Guid.Parse((string)dataVar.Value));
                             else
                                 variable.SetValue(component, dataVar.Value);
