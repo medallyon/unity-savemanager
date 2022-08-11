@@ -98,10 +98,13 @@ namespace Medallyon
                     {
                         onFirstLoad?.Invoke(mono, null);
                     }
+                    catch (TargetInvocationException e)
+                    {
+                        Debug.LogError(e.InnerException);
+                    }
                     catch (Exception e)
                     {
-                        Debug.LogWarning(
-                            $"{mono.GetType().Name} failed to invoke {nameof(ISaveable.OnFirstLoad)}: {e.Message}");
+                        Debug.LogError(e);
                     }
                 }
 
@@ -207,9 +210,13 @@ namespace Medallyon
                 // Invoke OnRestore for the Collection of variables
                 method.Invoke(component, new object[] { data });
             }
+            catch (TargetInvocationException e)
+            {
+                Debug.LogError(e.InnerException);
+            }
             catch (Exception e)
             {
-                throw new Exception($"Error restoring data for {component.GetType().Name}.{method.Name}", e);
+                Debug.LogError($"Error restoring data for {component.GetType().Name}.{method.Name}: {e}");
             }
         }
 
@@ -224,9 +231,13 @@ namespace Medallyon
                 // Invoke OnRestore for the Collection of variables
                 method.Invoke(component, new object[] { data });
             }
+            catch (TargetInvocationException e)
+            {
+                Debug.LogError(e.InnerException);
+            }
             catch (Exception e)
             {
-                throw new Exception($"Error restoring data for {component.GetType().Name}.{method.Name}", e);
+                Debug.LogError($"Error restoring data for {component.GetType().Name}.{method.Name}: {e}");
             }
         }
 
