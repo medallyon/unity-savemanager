@@ -10,12 +10,12 @@ jobs:
     steps:
       - uses: ChanTsune/release-with-commit@v2.4.0
         with:
-          regexp: "Version ((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*))"
+          regexp: "^Version ((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*))(?:[ \\t]?(.+)?\\s+((?:\\s|.+)(?:\\s|.+)+))?$"
           regexp_options: "usi"
           release_name: "Version $1"
           tag_name: "v$1"
-          body: ""
+          body: "$6"
           draft: false
           prerelease: true
         env:
-          GITHUB_TOKEN: '${{secrets.GITHUB_TOKEN}}' # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: '${{secrets.GITHUB_TOKEN}}'
