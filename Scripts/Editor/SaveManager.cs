@@ -14,7 +14,9 @@ namespace Medallyon
 {
     public class SaveManager : MonoBehaviour
     {
-        public static readonly BindingFlags SaveableMemberFields = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+        public static readonly BindingFlags SaveableMemberFields =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
         public static DirectoryInfo DataDirectory => new DirectoryInfo(Application.persistentDataPath);
         public static FileInfo DataFile => new FileInfo(Path.Combine(DataDirectory.FullName, "Data.dat"));
         private static FileInfo BackupDataFile => new FileInfo(Path.Combine(DataDirectory.FullName, "Data.bak.dat"));
@@ -24,12 +26,14 @@ namespace Medallyon
         /// </summary>
         public static void SaveAll()
         {
-            Dictionary<string, Dictionary<string, ComponentData>> toSave = new Dictionary<string, Dictionary<string, ComponentData>>();
+            Dictionary<string, Dictionary<string, ComponentData>> toSave =
+                new Dictionary<string, Dictionary<string, ComponentData>>();
             foreach (Saveable obj in FindObjectsOfType<Saveable>())
             {
                 foreach (MonoBehaviour component in obj.GetComponents<MonoBehaviour>())
                 {
-                    MemberInfo[] members = component.GetType().GetMembers(SaveableMemberFields).Where(m => Attribute.IsDefined(m, typeof(SaveAttribute))).ToArray();
+                    MemberInfo[] members = component.GetType().GetMembers(SaveableMemberFields)
+                        .Where(m => Attribute.IsDefined(m, typeof(SaveAttribute))).ToArray();
                     foreach (MemberInfo member in members)
                     {
                         if (!toSave.ContainsKey(obj.ID))
@@ -39,7 +43,8 @@ namespace Medallyon
                         if (!toSave[obj.ID].ContainsKey(componentName))
                             toSave[obj.ID].Add(componentName, new ComponentData());
 
-                        toSave[obj.ID][componentName].Variables.Add(new Variable(member.Name, member.GetValue(component)));
+                        toSave[obj.ID][componentName].Variables
+                            .Add(new Variable(member.Name, member.GetValue(component)));
                     }
                 }
             }
@@ -95,7 +100,8 @@ namespace Medallyon
                     }
                     catch (Exception e)
                     {
-                        Debug.LogWarning($"{mono.GetType().Name} failed to invoke {nameof(ISaveable.OnFirstLoad)}: {e.Message}");
+                        Debug.LogWarning(
+                            $"{mono.GetType().Name} failed to invoke {nameof(ISaveable.OnFirstLoad)}: {e.Message}");
                     }
                 }
 
@@ -131,14 +137,17 @@ namespace Medallyon
 
                     ComponentData componentData = dataComponents[componentType.Name];
 
-                    List<MemberInfo> componentMembers = new List<MemberInfo>(componentType.GetMembers(SaveableMemberFields));
+                    List<MemberInfo> componentMembers =
+                        new List<MemberInfo>(componentType.GetMembers(SaveableMemberFields));
                     foreach (Variable dataVar in componentData.Variables)
                     {
-                        MemberInfo variable = componentMembers.Find(m => m.Name == dataVar.Name && Attribute.IsDefined(m, typeof(SaveAttribute)));
+                        MemberInfo variable = componentMembers.Find(m =>
+                            m.Name == dataVar.Name && Attribute.IsDefined(m, typeof(SaveAttribute)));
 
                         if (variable == null)
                         {
-                            Debug.LogWarning($"Could not find Component Member ({obj.name}.{componentType.Name}.{dataVar.Name}) to restore data for. Has this member been moved?");
+                            Debug.LogWarning(
+                                $"Could not find Component Member ({obj.name}.{componentType.Name}.{dataVar.Name}) to restore data for. Has this member been moved?");
                             continue;
                         }
 
@@ -190,11 +199,12 @@ namespace Medallyon
             }
         }
 
-        protected static IEnumerator RestoreNextFrame(Component component, MethodInfo method, Dictionary<string, object> data)
+        protected static IEnumerator RestoreNextFrame(Component component, MethodInfo method,
+            Dictionary<string, object> data)
         {
             // Wait until all objects have woken up (processed their Awake)
             yield return new WaitForEndOfFrame();
-            
+
             try
             {
                 // Invoke OnRestore for the Collection of variables

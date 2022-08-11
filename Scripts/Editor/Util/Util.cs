@@ -26,7 +26,7 @@ namespace Medallyon
 
             return children;
         }
-        
+
         /// <summary>
         /// Get the value of <paramref name="memberInfo" /> for the specified <paramref name="forObject" />. Note that this only works for
         /// <see cref="PropertyInfo" /> and <see cref="FieldInfo" /> types.
@@ -68,7 +68,7 @@ namespace Medallyon
                 default: throw new NotImplementedException();
             }
         }
-        
+
         /// <source>https://stackoverflow.com/a/16043551/4672263</source>
         /// <param name="member"></param>
         /// <returns></returns>
