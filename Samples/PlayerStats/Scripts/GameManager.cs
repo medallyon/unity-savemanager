@@ -1,17 +1,19 @@
-using Medallyon;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Medallyon
 {
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        // Restore all saved data before 'Start'.
-        SaveManager.LoadAll();
-    }
+        private void Awake()
+        {
+            // Restore all saved data before 'Start'.
+            SaveManager.LoadAll();
+        }
 
-    private void OnApplicationQuit()
-    {
-        // Save all data before quitting the game.
-        SaveManager.SaveAll();
+        private void OnApplicationQuit()
+        {
+            // Save all data before quitting the game.
+            SaveManager.SaveAll();
+        }
     }
 }
